@@ -19,6 +19,8 @@ struct Bank
     static QJsonObject getBank(int id);
     static void addBank(Bank bank);
     static void removeBank(int id);
+    static Bank getBankStruct(QJsonObject bankObj);
+    static Bank getBankStruct(int id);
 };
 
 static Bank newBank(std::string name,

@@ -28,3 +28,22 @@ void removeBank(int id)
 {
 	removeObject(Bank::fileName, QString::number(id));
 }
+
+Bank Bank::getBankStruct(QJsonObject bankObj)
+{
+	Bank tempBank;
+	tempBank.id = bankObj["id"].toInt();
+	tempBank.name = bankObj["name"].toString().toStdString();
+	tempBank.totalBalance = bankObj["totalBalance"].toInt();
+	tempBank.foundationDate = bankObj["foundationDate"].toInt();
+
+	QJsonArray arr = bankObj["postalCode"].toArray();
+	foreach(QJsonValue x, arr)
+		tempBank.managers.push_back(x.toString().toStdString());
+	return tempBank;
+}
+
+Bank Bank::getBankStruct(int id)
+{
+	return getBankStruct(getBank(id));
+}

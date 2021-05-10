@@ -43,3 +43,22 @@ bool User::authenticate(std::string username, std::string password)
 
 	return false;
 }
+
+User User::getUserStruct(QJsonObject userObj)
+{
+	User tempUser;
+	tempUser.type = userObj["type"].toInt();
+	tempUser.name = userObj["name"].toString().toStdString();
+	tempUser.username = userObj["username"].toString().toStdString();
+	tempUser.password = userObj["password"].toString().toStdString();
+	tempUser.phoneNO = userObj["phoneNO"].toString().toStdString();
+	tempUser.addressId = userObj["addressId"].toInt();
+	tempUser.isBlocked = userObj["type"].toBool();
+	
+	return tempUser;
+}
+
+User User::getUserStruct(std::string username)
+{
+	return getUserStruct(getUser(username));
+}

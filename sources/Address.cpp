@@ -25,3 +25,21 @@ void Address::removeAddress(int id)
 {
 	removeObject(Address::fileName, QString::number(id));
 }
+
+Address Address::getAddressStruct(QJsonObject addressObj)
+{
+	Address tempAddress;
+	tempAddress.id = addressObj["id"].toInt();
+	tempAddress.country = addressObj["country"].toString().toStdString();
+	tempAddress.city = addressObj["city"].toString().toStdString();
+	tempAddress.street = addressObj["street"].toString().toStdString();
+	tempAddress.postalCode = addressObj["postalCode"].toInt();
+	tempAddress.plaqueNO = addressObj["plaqueNO"].toInt();
+
+	return tempAddress;
+}
+
+Address Address::getAddressStruct(int id)
+{
+	return getAddressStruct(getAddress(id));
+}

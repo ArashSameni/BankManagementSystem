@@ -17,6 +17,8 @@ struct Transition
     static QJsonObject getTransition(int id);
     static void addTransition(Transition transition);
     static void removeTransition(int id);
+    static Transition getTransitionStruct(QJsonObject transitionObj);
+    static Transition getTransitionStruct(int id);
 };
 
 static Transition newTransition(int sender,

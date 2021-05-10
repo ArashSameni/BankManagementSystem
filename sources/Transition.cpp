@@ -24,3 +24,20 @@ void removeTransition(int id)
 {
 	removeObject(Transition::fileName, QString::number(id));
 }
+
+Transition Transition::getTransitionStruct(QJsonObject transitionObj)
+{
+	Transition tempTransition;
+	tempTransition.id = transitionObj["id"].toInt();
+	tempTransition.sender = transitionObj["sender"].toInt();
+	tempTransition.receiver = transitionObj["receiver"].toInt();
+	tempTransition.amount = transitionObj["amount"].toInt();
+	tempTransition.transitionDate = transitionObj["transitionDate"].toInt();
+
+	return tempTransition;
+}
+
+Transition Transition::getTransitionStruct(int id)
+{
+	return getTransitionStruct(getTransition(id));
+}

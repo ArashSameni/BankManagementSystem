@@ -23,6 +23,8 @@ struct User
 	static void addUser(User user);
 	static bool authenticate(std::string username, std::string password);
 	static void removeUser(std::string username);
+	static User getUserStruct(QJsonObject userObj);
+	static User getUserStruct(std::string username);
 };
 
 static User newUser(

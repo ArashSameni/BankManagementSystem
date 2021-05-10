@@ -28,3 +28,24 @@ void Loan::removeLoan(int id)
 {
 	removeObject(Loan::fileName, QString::number(id));
 }
+
+Loan Loan::getLoanStruct(QJsonObject loanObj)
+{
+	Loan tempLoan;
+	tempLoan.id = loanObj["id"].toInt();
+	tempLoan.fRequestAccount = loanObj["fRequestAccount"].toInt();
+	tempLoan.fPaymentAccount = loanObj["fPaymentAccount"].toInt();
+	tempLoan.fBankId = loanObj["fBankId"].toInt();
+	tempLoan.amount = loanObj["amount"].toInt();
+	tempLoan.status = loanObj["status"].toInt();
+	tempLoan.countOfPayments = loanObj["countOfPayments"].toInt();
+	tempLoan.lastTimePayed = loanObj["lastTimePayed"].toInt();
+	tempLoan.requisitionDate = loanObj["requisitionDate"].toInt();
+
+	return tempLoan;
+}
+
+Loan Loan::getLoanStruct(int id)
+{
+	return getLoanStruct(getLoan(id));
+}

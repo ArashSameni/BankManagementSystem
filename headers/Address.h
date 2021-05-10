@@ -19,6 +19,8 @@ struct Address
 	static QJsonObject getAddress(int id);
 	static void addAddress(Address address);
 	static void removeAddress(int id);
+	static Address getAddressStruct(QJsonObject addressObj);
+	static Address getAddressStruct(int id);
 };
 
 static Address newAddress(std::string city = "",
