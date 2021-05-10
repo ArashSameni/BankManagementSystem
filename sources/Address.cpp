@@ -5,10 +5,7 @@ QString Address::fileName = "data/addresses.json";
 
 QJsonObject Address::getAddress(int id)
 {
-	QString QsId = QString::number(id);
-	QJsonObject fileObj = readFile(Address::fileName).object();
-	if (fileObj.contains(QsId))
-		return fileObj[QsId].toObject();
+	return getObject(Address::fileName, QString::number(id));
 }
 
 void Address::addAddress(Address address)
@@ -21,11 +18,7 @@ void Address::addAddress(Address address)
 	addressObj["postalCode"] = address.postalCode;
 	addressObj["plaqueNO"] = address.plaqueNO;
 
-	QJsonDocument doc = readFile(Address::fileName);
-	QJsonObject fileObj = doc.object();
-	fileObj[QString::number(address.id)] = addressObj;
-	doc.setObject(fileObj);
-	writeFile(Address::fileName, doc);
+	addObject(Address::fileName, QString::number(address.id), addressObj);
 }
 
 void Address::removeAddress(int id)
