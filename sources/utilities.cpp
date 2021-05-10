@@ -38,3 +38,51 @@ bool existsObject(QString fileName, QString identifier)
 	QJsonObject fileObj = readFile(fileName).object();
 	return fileObj.contains(identifier);
 }
+
+std::string getStringInput(std::string inputName, bool required)
+{
+	std::string inp = "";
+	if (!required)
+		inputName += "(Enter to skip)";
+	while (true)
+	{
+		std::cout << inputName << ": ";
+		std::getline(std::cin, inp);
+		if (!required || !inp.empty())
+			break;
+		else
+			std::cout << inputName << " is required!" << std::endl;
+	}
+	return inp;
+}
+
+int getIntInput(std::string inputName, bool required)
+{
+	int res = 0;
+	std::string inp = "";
+	if (!required)
+		inputName += "(Enter to skip)";
+	while (true)
+	{
+		std::cout << inputName << ": ";
+		std::getline(std::cin, inp);
+		if (!inp.empty())
+		{
+			try
+			{
+				res = std::stoi(inp);
+				break;
+			}
+			catch (...) 
+			{
+				std::cout << "Please enter valid " << inputName << std::endl;
+			}
+		}
+		else if (!required)
+			break;
+		else
+			std::cout << inputName << " is required!" << std::endl;
+	}
+
+	return res;
+}
