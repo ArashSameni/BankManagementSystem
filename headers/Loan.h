@@ -18,7 +18,7 @@ struct Loan
 
     static QString fileName;
     static QJsonObject getLoan(int id);
-    static void addLoan(Loan loan);
+    static void addOrUpdateLoan(Loan loan);
     static void removeLoan(int id);
     static Loan getLoanStruct(QJsonObject loanObj);
     static Loan getLoanStruct(int id);
@@ -38,7 +38,7 @@ static Loan newLoan(int requestAccount,
     tempLoan.fBankId = bankId;
     tempLoan.amount = amount;
 
-    Loan::addLoan(tempLoan);
+    Loan::addOrUpdateLoan(tempLoan);
 	
     return tempLoan;
 }

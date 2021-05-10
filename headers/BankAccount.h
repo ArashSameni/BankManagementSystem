@@ -22,7 +22,7 @@ struct BankAccount
 
     static QString fileName;
     static QJsonObject getAccount(int id);
-    static void addAccount(BankAccount account);
+    static void addOrUpdateAccount(BankAccount account);
     static void removeAccount(int id);
     static BankAccount getAccountStruct(QJsonObject accountObj);
     static BankAccount getAccountStruct(int id);
@@ -49,7 +49,7 @@ static BankAccount newBankAccount(std::string username,
     }
     tempBankAccount.balance = balance;
 
-    BankAccount::addAccount(tempBankAccount);
+    BankAccount::addOrUpdateAccount(tempBankAccount);
 	
     return tempBankAccount;
 }

@@ -8,7 +8,7 @@ QJsonObject Transition::getTransition(int id)
 	return getObject(Transition::fileName, QString::number(id));
 }
 
-void Transition::addTransition(Transition transition)
+void Transition::addOrUpdateTransition(Transition transition)
 {
 	QJsonObject transitionObj;
 	transitionObj["id"] = transition.id;
@@ -17,10 +17,17 @@ void Transition::addTransition(Transition transition)
 	transitionObj["amount"] = transition.amount;
 	transitionObj["transitionDate"] = transition.transitionDate;
 
-	addObject(Transition::fileName, QString::number(transition.id), transitionObj);
+	BankAccount sender = BankAccount::getAccountStruct(transition.sender);
+	BankAccount receiver = BankAccount::getAccountStruct(transition.receiver);
+	sender.balance -= transition.amount;
+	receiver.balance += transition.amount;
+	BankAccount::addOrUpdateAccount(sender);
+	BankAccount::addOrUpdateAccount(receiver);
+	
+	addOrUpdateObject(Transition::fileName, QString::number(transition.id), transitionObj);
 }
 
-void removeTransition(int id)
+void Transition::removeTransition(int id)
 {
 	removeObject(Transition::fileName, QString::number(id));
 }

@@ -17,7 +17,7 @@ struct Bank
 
     static QString fileName;
     static QJsonObject getBank(int id);
-    static void addBank(Bank bank);
+    static void addOrUpdateBank(Bank bank);
     static void removeBank(int id);
     static Bank getBankStruct(QJsonObject bankObj);
     static Bank getBankStruct(int id);
@@ -31,7 +31,7 @@ static Bank newBank(std::string name,
     tempBank.name = name;
     tempBank.totalBalance = totalBalance;
 
-    Bank::addBank(tempBank);
+    Bank::addOrUpdateBank(tempBank);
 	
     return tempBank;
 }

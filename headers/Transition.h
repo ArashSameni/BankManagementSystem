@@ -2,6 +2,7 @@
 #include <QJsonObject>
 #include <QString>
 #include "utilities.h"
+#include "BankAccount.h"
 
 struct Transition
 {
@@ -15,7 +16,7 @@ struct Transition
 	
     static QString fileName;
     static QJsonObject getTransition(int id);
-    static void addTransition(Transition transition);
+    static void addOrUpdateTransition(Transition transition);
     static void removeTransition(int id);
     static Transition getTransitionStruct(QJsonObject transitionObj);
     static Transition getTransitionStruct(int id);

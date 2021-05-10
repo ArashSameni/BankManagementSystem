@@ -8,7 +8,7 @@ QJsonObject Address::getAddress(int id)
 	return getObject(Address::fileName, QString::number(id));
 }
 
-void Address::addAddress(Address address)
+void Address::addOrUpdateAddress(Address address)
 {
 	QJsonObject addressObj;
 	addressObj["id"] = address.id;
@@ -18,7 +18,7 @@ void Address::addAddress(Address address)
 	addressObj["postalCode"] = address.postalCode;
 	addressObj["plaqueNO"] = address.plaqueNO;
 
-	addObject(Address::fileName, QString::number(address.id), addressObj);
+	addOrUpdateObject(Address::fileName, QString::number(address.id), addressObj);
 }
 
 void Address::removeAddress(int id)

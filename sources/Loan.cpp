@@ -8,7 +8,7 @@ QJsonObject Loan::getLoan(int id)
 	return getObject(Loan::fileName, QString::number(id));
 }
 
-void Loan::addLoan(Loan loan)
+void Loan::addOrUpdateLoan(Loan loan)
 {
 	QJsonObject loanObj;
 	loanObj["id"] = loan.id;
@@ -21,7 +21,7 @@ void Loan::addLoan(Loan loan)
 	loanObj["lastTimePayed"] = loan.lastTimePayed;
 	loanObj["requisitionDate"] = loan.requisitionDate;
 
-	addObject(Loan::fileName, QString::number(loan.id), loanObj);
+	addOrUpdateObject(Loan::fileName, QString::number(loan.id), loanObj);
 }
 
 void Loan::removeLoan(int id)

@@ -13,7 +13,7 @@ QJsonObject User::getUser(std::string username)
 	return getObject(User::fileName, toQString(username));
 }
 
-void User::addUser(User user)
+void User::addOrUpdateUser(User user)
 {
 	QJsonObject userObj;
 	userObj["type"] = user.type;
@@ -24,7 +24,7 @@ void User::addUser(User user)
 	userObj["addressId"] = user.addressId;
 	userObj["isBlocked"] = false;
 
-	addObject(User::fileName, toQString(user.username), userObj);
+	addOrUpdateObject(User::fileName, toQString(user.username), userObj);
 }
 
 

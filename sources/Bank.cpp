@@ -3,12 +3,12 @@
 int Bank::banksCount = 0;
 QString Bank::fileName = "data/banks.json";
 
-QJsonObject getBank(int id)
+QJsonObject Bank::getBank(int id)
 {
 	return getObject(Bank::fileName, QString::number(id));
 }
 
-void addBank(Bank bank)
+void Bank::addOrUpdateBank(Bank bank)
 {
 	QJsonObject bankObj;
 	bankObj["id"] = bank.id;
@@ -21,10 +21,10 @@ void addBank(Bank bank)
 		arr.append(QJsonValue(toQString(bank.managers[i])));
 	bankObj["managers"] = arr;
 
-	addObject(Bank::fileName, QString::number(bank.id), bankObj);
+	addOrUpdateObject(Bank::fileName, QString::number(bank.id), bankObj);
 }
 
-void removeBank(int id)
+void Bank::removeBank(int id)
 {
 	removeObject(Bank::fileName, QString::number(id));
 }

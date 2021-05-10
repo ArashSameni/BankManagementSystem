@@ -12,7 +12,7 @@ QJsonObject getObject(QString fileName, QString identifier)
 		return fileObj[identifier].toObject();
 }
 
-void addObject(QString fileName, QString identifier, QJsonObject obj)
+void addOrUpdateObject(QString fileName, QString identifier, QJsonObject obj)
 {
 	QJsonDocument doc = readFile(fileName);
 	QJsonObject fileObj = doc.object();

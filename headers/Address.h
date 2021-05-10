@@ -17,7 +17,7 @@ struct Address
 
 	static QString fileName;
 	static QJsonObject getAddress(int id);
-	static void addAddress(Address address);
+	static void addOrUpdateAddress(Address address);
 	static void removeAddress(int id);
 	static Address getAddressStruct(QJsonObject addressObj);
 	static Address getAddressStruct(int id);
@@ -37,7 +37,7 @@ static Address newAddress(std::string city = "",
 	tempAddress.postalCode = postalCode;
 	tempAddress.plaqueNO = plaqueNO;
 
-	Address::addAddress(tempAddress);
+	Address::addOrUpdateAddress(tempAddress);
 
 	return tempAddress;
 }

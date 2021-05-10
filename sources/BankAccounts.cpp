@@ -8,7 +8,7 @@ QJsonObject BankAccount::getAccount(int id)
 	return getObject(BankAccount::fileName, QString::number(id));
 }
 
-void BankAccount::addAccount(BankAccount account)
+void BankAccount::addOrUpdateAccount(BankAccount account)
 {
 	QJsonObject accountObj;
 	accountObj["id"] = account.id;
@@ -21,7 +21,7 @@ void BankAccount::addAccount(BankAccount account)
 	accountObj["createDate"] = account.createDate;
 	accountObj["lastInterestDate"] = account.lastInterestDate;
 	
-	addObject(BankAccount::fileName, QString::number(account.id), accountObj);
+	addOrUpdateObject(BankAccount::fileName, QString::number(account.id), accountObj);
 }
 
 void BankAccount::removeAccount(int id)

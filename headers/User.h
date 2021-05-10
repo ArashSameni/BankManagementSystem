@@ -20,7 +20,7 @@ struct User
 	static QString fileName;
 	static bool exists(std::string username);
 	static QJsonObject getUser(std::string username);
-	static void addUser(User user);
+	static void addOrUpdateUser(User user);
 	static bool authenticate(std::string username, std::string password);
 	static void removeUser(std::string username);
 	static User getUserStruct(QJsonObject userObj);
@@ -44,7 +44,7 @@ static User newUser(
 	tempUser.phoneNO = phoneNO;
 	tempUser.addressId = addressId;
 
-	User::addUser(tempUser);
+	User::addOrUpdateUser(tempUser);
 	
 	return tempUser;
 }
