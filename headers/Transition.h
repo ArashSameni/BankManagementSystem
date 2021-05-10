@@ -1,4 +1,7 @@
 #include <iostream>
+#include <QJsonObject>
+#include <QString>
+#include "utilities.h"
 
 struct Transition
 {
@@ -9,8 +12,12 @@ struct Transition
     int receiver; // Foreign Key
     int amount;
     time_t transitionDate = time(0);
+	
+    static QString fileName;
+    static QJsonObject getTransition(int id);
+    static void addTransition(Transition transition);
+    static void removeTransition(int id);
 };
-int Transition::transitionsCount = 0;
 
 static Transition newTransition(int sender,
                                 int receiver,

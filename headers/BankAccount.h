@@ -1,4 +1,7 @@
 #include <iostream>
+#include <QJsonObject>
+#include <QString>
+#include "utilities.h"
 
 struct BankAccount
 {
@@ -16,8 +19,12 @@ struct BankAccount
     bool isActive = true;
     time_t createDate = time(0);
     time_t lastInterestDate = time(0);
+
+    static QString fileName;
+    static QJsonObject getAccount(int id);
+    static void addAccount(BankAccount account);
+    static void removeAccount(int id);
 };
-int BankAccount::accountsCount = 0;
 
 static BankAccount newBankAccount(std::string username,
                                   int bankId,
@@ -40,5 +47,7 @@ static BankAccount newBankAccount(std::string username,
     }
     tempBankAccount.balance = balance;
 
+    BankAccount::addAccount(tempBankAccount);
+	
     return tempBankAccount;
 }

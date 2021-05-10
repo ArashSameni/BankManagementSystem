@@ -1,5 +1,9 @@
 #include <iostream>
+#include <QJsonObject>
+#include <QString>
 #include <vector>
+#include <QJsonArray>
+#include "utilities.h"
 
 struct Bank
 {
@@ -8,10 +12,14 @@ struct Bank
 
     std::string name;
     int totalBalance = 5000000;
-    std::vector<std::string> managers;         // Foreign Key
+    std::vector<std::string> managers;        // Foreign Key
     time_t foundationDate = time(0);
+
+    static QString fileName;
+    static QJsonObject getBank(int id);
+    static void addBank(Bank bank);
+    static void removeBank(int id);
 };
-int Bank::banksCount = 0;
 
 static Bank newBank(std::string name,
                     int totalBalance = 5000000)
@@ -20,5 +28,8 @@ static Bank newBank(std::string name,
     tempBank.id = ++Bank::banksCount;
     tempBank.name = name;
     tempBank.totalBalance = totalBalance;
+
+    Bank::addBank(tempBank);
+	
     return tempBank;
 }

@@ -1,4 +1,6 @@
 #include <iostream>
+#include <QJsonObject>
+#include "utilities.h"
 
 struct Loan
 {
@@ -11,10 +13,14 @@ struct Loan
     int amount;
     int status = 0;       // 0: Pending, -1: Rejected, 1: Accepted
     int countOfPayments = 0;
-    time_t lastTimePayed;
+    time_t lastTimePayed = 0;
     time_t requisitionDate = time(0);
+
+    static QString fileName;
+    static QJsonObject getLoan(int id);
+    static void addLoan(Loan loan);
+    static void removeLoan(int id);
 };
-int Loan::loansCount = 0;
 
 static Loan newLoan(int requestAccount,
                     int bankId,
@@ -29,5 +35,8 @@ static Loan newLoan(int requestAccount,
         tempLoan.fPaymentAccount = paymentAccount;
     tempLoan.fBankId = bankId;
     tempLoan.amount = amount;
+
+    Loan::addLoan(tempLoan);
+	
     return tempLoan;
 }
