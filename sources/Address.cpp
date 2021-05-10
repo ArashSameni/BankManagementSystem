@@ -30,13 +30,5 @@ void Address::addAddress(Address address)
 
 void Address::removeAddress(int id)
 {
-	QString QsId = QString::number(id);
-	QJsonDocument doc = readFile(Address::fileName);
-	QJsonObject fileObj = doc.object();
-	if (fileObj.contains(QsId))
-	{
-		fileObj.remove(QsId);
-		doc.setObject(fileObj);
-		writeFile(Address::fileName, doc);
-	}
+	removeObject(Address::fileName, QString::number(id));
 }
