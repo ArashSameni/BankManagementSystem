@@ -34,6 +34,19 @@ void User::addUser(User user)
 	writeFile(User::fileName, doc);
 }
 
+void User::removeUser(std::string username)
+{
+	QString QUserName = toQString(username);
+	QJsonDocument doc = readFile(User::fileName);
+	QJsonObject fileObj = doc.object();
+	if (fileObj.contains(QUserName))
+	{
+		fileObj.remove(QUserName);
+		doc.setObject(fileObj);
+		writeFile(User::fileName, doc);
+	}
+}
+
 bool User::authenticate(std::string username, std::string password)
 {
 	if (exists(username))
