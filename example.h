@@ -1,3 +1,6 @@
+bool test(int b)
+{return b > 5;}
+
 struct List
 {
   int id;

@@ -1,7 +1,8 @@
-#include "headers/file.h"
+#include "../headers/file.h"
 
 QJsonDocument readFile(QString fileName)
 {
+	fileName = "../" + fileName;
 	QFile file(fileName);
 	file.open(QIODevice::ReadOnly);
 	QByteArray byteArray = file.readAll();
@@ -12,6 +13,7 @@ QJsonDocument readFile(QString fileName)
 
 void writeFile(QString fileName, QJsonDocument& doc)
 {
+	fileName = "../" + fileName;
 	QFile file(fileName);
 	file.open(QFile::WriteOnly | QFile::Truncate);
 	file.write(doc.toJson());

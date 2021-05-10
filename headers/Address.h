@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 
 struct Address
@@ -11,7 +12,6 @@ struct Address
     int postalCode = 0;
     int plaqueNO = 0;
 };
-int Address::addressesCount = 0;
 
 static Address newAddress(std::string city = "",
                           std::string street = "",

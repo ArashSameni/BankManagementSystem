@@ -1,4 +1,4 @@
-#include "headers/utilities.h"
+#include "../headers/utilities.h"
 
 QString toQString(std::string str)
 {

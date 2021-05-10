@@ -16,12 +16,14 @@ struct User
 	std::string phoneNO;
 	int addressId;		   //Foreign Key
 	bool isBlocked = false;
-};
-int User::usersCount = 0;
 
-static User newUser(std::string name,
+	static bool exists(std::string username);
+};
+
+static User newUser(
 	std::string username,
 	std::string password,
+	std::string name,
 	int type = 1,
 	std::string phoneNO = "",
 	int addressId = 0)
@@ -34,7 +36,7 @@ static User newUser(std::string name,
 	tempUser.password = password;
 	tempUser.phoneNO = phoneNO;
 	tempUser.addressId = addressId;
-
+	
 	QJsonObject userObj;
 	userObj["type"] = type;
 	userObj["name"] = toQString(name);
