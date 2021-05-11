@@ -3,7 +3,7 @@
 #include <QString>
 #include <vector>
 #include <QJsonArray>
-#include "utilities.h"
+#include "../utilities.h"
 
 struct Bank
 {

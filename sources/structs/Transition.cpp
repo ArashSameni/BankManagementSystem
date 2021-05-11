@@ -1,4 +1,4 @@
-#include "../headers/Transition.h"
+#include "../../headers/structs/Transition.h"
 
 int Transition::transitionsCount = 0;
 QString Transition::fileName = "data/transitions.json";

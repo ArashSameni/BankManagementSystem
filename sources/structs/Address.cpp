@@ -1,4 +1,4 @@
-#include "../headers/Address.h"
+#include "../../headers/structs/Address.h"
 
 int Address::addressesCount = 0;
 QString Address::fileName = "data/addresses.json";

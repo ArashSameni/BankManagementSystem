@@ -1,4 +1,4 @@
-#include "../headers/BankAccount.h"
+#include "../../headers/structs/BankAccount.h"
 
 int BankAccount::accountsCount = 0;
 QString BankAccount::fileName = "data/accounts.json";

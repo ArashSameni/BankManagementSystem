@@ -1,4 +1,4 @@
-#include "../headers/Loan.h"
+#include "../../headers/structs/Loan.h"
 
 int Loan::loansCount = 0;
 QString Loan::fileName = "data/loans.json";

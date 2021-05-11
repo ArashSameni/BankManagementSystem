@@ -1,6 +1,6 @@
 #include <iostream>
 #include <QCoreApplication>
-#include "headers/User.h"
+#include "headers/structs/Address.h"
 
 int main(int argc, char* argv[])
 {

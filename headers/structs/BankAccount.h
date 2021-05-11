@@ -1,7 +1,7 @@
 #include <iostream>
 #include <QJsonObject>
 #include <QString>
-#include "utilities.h"
+#include "../utilities.h"
 
 struct BankAccount
 {
