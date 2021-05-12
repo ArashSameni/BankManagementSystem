@@ -39,6 +39,12 @@ bool existsObject(QString fileName, QString identifier)
 	return fileObj.contains(identifier);
 }
 
+int countOfObjects(QString fileName)
+{
+	QJsonObject fileObj = readFile(fileName).object();
+	return fileObj.keys().count();
+}
+
 std::string getStringInput(std::string inputName, bool required)
 {
 	std::string inp = "";
