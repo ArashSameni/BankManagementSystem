@@ -30,27 +30,30 @@ void showLogo()
 
 void mainMenu()
 {
-	system("cls");
-	std::cout << std::endl << cyan << "  Main Menu :" << reset << std::endl << std::endl;
-	std::cout << "    1.Login" << std::endl;
-	std::cout << "    2.Sign Up" << std::endl;
-	std::cout << "    3.Forgot Password" << std::endl;
-	std::cout << "    4.Exit" << std::endl;
-
-	int input = getMenuInput(4);
-	switch (input)
+	while(true)
 	{
-	case 1:
-		loginMenu();
-		break;
-	case 2:
-		signUpMenu();
-		break;
-	case 3:
-		forgotPasswordMenu();
-		break;
-	default:          //-1 or 4
-		exit(0);
+		system("cls");
+		std::cout << std::endl << cyan << "  Main Menu :" << reset << std::endl << std::endl;
+		std::cout << "    1.Login" << std::endl;
+		std::cout << "    2.Sign Up" << std::endl;
+		std::cout << "    3.Forgot Password" << std::endl;
+		std::cout << "    4.Exit" << std::endl;
+
+		int input = getMenuInput(4);
+		switch (input)
+		{
+		case 1:
+			loginMenu();
+			break;
+		case 2:
+			signUpMenu();
+			break;
+		case 3:
+			forgotPasswordMenu();
+			break;
+		default:          //-1 or 4
+			exit(0);
+		}
 	}
 }
 
@@ -66,16 +69,22 @@ void signUpMenu()
 	system("cls");
 	std::cout << std::endl << cyan << " SignUp Menu" << reset << std::endl << std::endl;
 	std::string name = getStringInput("Full Name", true, true);
-	if(name == "-1") mainMenu();
+	if(name == "-1") return;
 	
 	std::string username = getStringInput("Username");
-	if (username == "-1") mainMenu();
+	if (username == "-1") return;
+	while(User::exists(username))
+	{
+		std::cout << red << "    Username already exists!" << reset << std::endl;
+		username = getStringInput("Username");
+		if (username == "-1") return;
+	}
 	
 	std::string password = getStringInput("Password");
-	if (password == "-1") mainMenu();
+	if (password == "-1") return;
 	
 	std::string PhoneNO = getStringInput("Phone Number");
-	if (PhoneNO == "-1") mainMenu();
+	if (PhoneNO == "-1") return;
 	while(!is_digits(PhoneNO) || PhoneNO.size() != 11)
 	{
 		std::cout << red << "    invalid Phone Number!" << reset << std::endl;
@@ -83,17 +92,48 @@ void signUpMenu()
 	}
 	
 	std::string city = getStringInput("City");
-	if (city == "-1") mainMenu();
+	if (city == "-1") return;
 
 	Address tempAddress = newAddress(city);
 	User tempUser = newUser(username, password, name, 1, PhoneNO, tempAddress.id);
 	
 	std::cout << std::endl << green << bright << "Your account has been successfully created!" << reset << std::endl;
 	_sleep(1000);
-	loginMenu();
 }
 
 void forgotPasswordMenu()
 {
+	system("cls");
+	std::cout << std::endl << cyan << " Forgot Password Menu" << reset << std::endl << std::endl;
+	
+	std::string username = getStringInput("Username");
+	if (username == "-1") return;
+	while (!User::exists(username))
+	{
+		std::cout << red << "    Username doesn't exist!" << reset << std::endl;
+		username = getStringInput("Username");
+		if (username == "-1") return;
+	}
+	User selectedUser = User::getUserStruct(username);
+	
+	std::string PhoneNO = getStringInput("Phone Number");
+	if (PhoneNO == "-1") return;
+	while (!is_digits(PhoneNO) || PhoneNO.size() != 11)
+	{
+		std::cout << red << "    invalid Phone Number!" << reset << std::endl;
+		PhoneNO = getStringInput("Phone Number");
+	}
+	
+	if (PhoneNO == selectedUser.phoneNO)
+	{
+		std::string password = getStringInput("New Password");
+		if (password == "-1") return;
+		selectedUser.password = password;
+		User::addOrUpdateUser(selectedUser);
+		std::cout << std::endl << green << bright << "Password successfully changed!" << reset << std::endl;
+	}
+	else
+		std::cout << red << "    Phone Numbers doesn't match!" << reset << std::endl;
 
+	_sleep(1000);
 }

@@ -5,12 +5,12 @@ QString User::fileName = "data/users.json";
 
 bool User::exists(std::string username)
 {
-	return existsObject(User::fileName, toQString(username));
+	return existsObject(User::fileName, toQString(username).toLower());
 }
 
 QJsonObject User::getUser(std::string username)
 {
-	return getObject(User::fileName, toQString(username));
+	return getObject(User::fileName, toQString(username).toLower());
 }
 
 void User::addOrUpdateUser(User user)
@@ -24,13 +24,13 @@ void User::addOrUpdateUser(User user)
 	userObj["addressId"] = user.addressId;
 	userObj["isBlocked"] = false;
 
-	addOrUpdateObject(User::fileName, toQString(user.username), userObj);
+	addOrUpdateObject(User::fileName, toQString(user.username).toLower(), userObj);
 }
 
 
 void User::removeUser(std::string username)
 {
-	removeObject(User::fileName, toQString(username));
+	removeObject(User::fileName, toQString(username).toLower());
 }
 
 bool User::authenticate(std::string username, std::string password)
