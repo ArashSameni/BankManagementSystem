@@ -135,3 +135,16 @@ bool is_digits(const std::string& str)
 {
 	return str.find_first_not_of("0123456789") == std::string::npos;
 }
+
+std::string getDateTime(int unixTime, bool getTime)
+{
+	using std::to_string;
+	time_t unix_time = unixTime;
+	tm* ltm = localtime(&unix_time);
+	std::string dateTime = to_string(ltm->tm_year + 1900) + "-" + to_string(ltm->tm_mon + 1) + "-" + to_string(ltm->tm_mday);
+
+	if (getTime)
+		dateTime += " " + to_string(ltm->tm_hour + 1) + ":" + to_string(ltm->tm_min);
+
+	return dateTime;
+}

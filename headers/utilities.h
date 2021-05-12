@@ -3,6 +3,7 @@
 #include <QString>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <ctime>
 #include "file.h"
 
 QString toQString(std::string str);
@@ -17,3 +18,4 @@ std::string getStringInput(std::string inputName, bool required = true, bool wit
 int getIntInput(std::string inputName, bool required = true);
 
 bool is_digits(const std::string& str);
+std::string getDateTime(int unixTime, bool getTime = false);
