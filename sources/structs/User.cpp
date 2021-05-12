@@ -53,7 +53,7 @@ User User::getUserStruct(QJsonObject userObj)
 	tempUser.password = userObj["password"].toString().toStdString();
 	tempUser.phoneNO = userObj["phoneNO"].toString().toStdString();
 	tempUser.addressId = userObj["addressId"].toInt();
-	tempUser.isBlocked = userObj["type"].toBool();
+	tempUser.isBlocked = userObj["isBlocked"].toBool();
 	
 	return tempUser;
 }

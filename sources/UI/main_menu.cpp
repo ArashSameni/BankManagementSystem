@@ -61,7 +61,47 @@ void mainMenu()
 
 void loginMenu()
 {
-	std::cout << std::endl << cyan << " Login Menu" << reset << std::endl << std::endl;
+	while (true)
+	{
+		system("cls");
+		std::cout << std::endl << cyan << " Login Menu" << reset << std::endl << std::endl;
+
+		std::string username = getStringInput("Username");
+		if (username == "-1") return;
+
+		std::string password = getStringInput("Password");
+		if (password == "-1") return;
+
+		if (User::authenticate(username, password))
+		{
+			User authenticatedUser = User::getUserStruct(username);
+			if (!authenticatedUser.isBlocked)
+			{
+				switch (authenticatedUser.type)
+				{
+				case 1:
+					userPanel(authenticatedUser);
+					break;
+				case 2:
+					managerPanel(authenticatedUser);
+					break;
+				case 3:
+					adminPanel(authenticatedUser);
+					break;
+				}
+			}
+			else
+			{
+				std::cout << red << "    Your account is blocked!" << reset << std::endl;
+				_sleep(1000);
+			}
+		}
+		else
+		{
+			std::cout << red << "    Username or password is incorrect!" << reset << std::endl;
+			_sleep(1000);
+		}
+	}
 }
 
 void signUpMenu()
@@ -91,7 +131,7 @@ void signUpMenu()
 		PhoneNO = getStringInput("Phone Number");
 	}
 	
-	std::string city = getStringInput("City");
+	std::string city = getStringInput("City", true, true);
 	if (city == "-1") return;
 
 	Address tempAddress = newAddress(city);
