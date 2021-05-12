@@ -34,8 +34,7 @@ void InitializeProject()
 	createFileIfNotExist(Loan::fileName);
 	createFileIfNotExist(Transition::fileName);
 	createFileIfNotExist(BankAccount::fileName);
-
-	User::usersCount = countOfObjects(User::fileName);
+	
 	Bank::banksCount = countOfObjects(Bank::fileName);
 	Address::addressesCount = countOfObjects(Address::fileName);
 	Loan::loansCount = countOfObjects(Loan::fileName);

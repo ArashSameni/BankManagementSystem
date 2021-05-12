@@ -1,6 +1,5 @@
 #include "../../headers/structs/User.h"
 
-int User::usersCount = 0;
 QString User::fileName = "data/users.json";
 
 bool User::exists(std::string username)

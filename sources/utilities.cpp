@@ -42,8 +42,15 @@ bool existsObject(QString fileName, QString identifier)
 
 int countOfObjects(QString fileName)
 {
-	QJsonObject fileObj = readFile(fileName).object();
-	return fileObj.keys().count();
+	int max = 0;
+	QStringList keys = readFile(fileName).object().keys();
+	foreach(QString num, keys)
+	{
+		int key = num.toInt();
+		if (key > max)
+			max = key;
+	}
+	return max;
 }
 
 int getMenuInput(int max)

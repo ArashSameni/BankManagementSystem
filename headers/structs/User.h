@@ -8,8 +8,6 @@
 
 struct User
 {
-	static int usersCount;
-
 	int type = 1;            //1: NormalUser, 2: Bank Manager, 3: Full Admin
 	std::string name;
 	std::string username;    //This is primary key
@@ -39,7 +37,6 @@ static User newUser(
 	int addressId = 0)
 {
 	User tempUser;
-	++User::usersCount;
 	tempUser.type = type;
 	tempUser.name = name;
 	tempUser.username = username;
