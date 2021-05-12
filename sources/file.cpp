@@ -2,7 +2,7 @@
 
 QJsonDocument readFile(QString fileName)
 {
-	fileName = "../../" + fileName;
+	fileName = fileName;
 	QFile file(fileName);
 	file.open(QIODevice::ReadOnly);
 	QByteArray byteArray = file.readAll();
@@ -12,7 +12,7 @@ QJsonDocument readFile(QString fileName)
 
 void writeFile(QString fileName, QJsonDocument &doc)
 {
-	fileName = "../../" + fileName;
+	fileName = fileName;
 	QFile file(fileName);
 	file.open(QFile::WriteOnly | QFile::Truncate);
 	file.write(doc.toJson());
@@ -22,12 +22,19 @@ void writeFile(QString fileName, QJsonDocument &doc)
 bool fileExists(QString path)
 {
 	QFileInfo check_file(path);
+
 	if (check_file.exists() && check_file.isFile())
-	{
 		return true;
-	}
 	else
-	{
 		return false;
+}
+
+void createFileIfNotExist(QString path)
+{
+	if (!fileExists(path))
+	{
+		QFile file(path);
+		file.open(QIODevice::WriteOnly);
+		file.close();
 	}
 }
