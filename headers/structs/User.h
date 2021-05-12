@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <vector>
 #include "Address.h"
 #include "../utilities.h"
@@ -8,15 +9,17 @@
 
 struct User
 {
-	int type = 1;            //1: NormalUser, 2: Bank Manager, 3: Full Admin
+	int type = 1;               //1: NormalUser, 2: Bank Manager, 3: Full Admin
 	std::string name;
-	std::string username;    //This is primary key
+	std::string username;       //This is primary key
 	std::string password;
 	std::string phoneNO;
-	int addressId;		     //Foreign Key
+	int addressId;		        //Foreign Key
 	bool isBlocked = false;
-	int bankId = 0;          //Foreign Key (manager of which bank)
-
+	int bankId = 0;             //Foreign Key (manager of which bank)
+	std::vector<int> accounts;
+	std::vector<int> loans;
+	
 	static QString fileName;
 	static bool exists(std::string username);
 	static QJsonObject getUser(std::string username);

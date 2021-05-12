@@ -24,6 +24,16 @@ void User::addOrUpdateUser(User user)
 	userObj["isBlocked"] = false;
 	userObj["bankId"] = user.bankId;
 
+	QJsonArray arr1;
+	for (int i = 0; i < user.accounts.size(); i++)
+		arr1.append(QJsonValue(user.accounts[i]));
+	userObj["accounts"] = arr1;
+
+	QJsonArray arr2;
+	for (int i = 0; i < user.loans.size(); i++)
+		arr2.append(QJsonValue(user.loans[i]));
+	userObj["loans"] = arr2;
+	
 	addOrUpdateObject(User::fileName, toQString(user.username).toLower(), userObj);
 }
 
@@ -56,6 +66,13 @@ User User::getUserStruct(QJsonObject userObj)
 	tempUser.isBlocked = userObj["isBlocked"].toBool();
 	tempUser.bankId = userObj["bankId"].toInt();
 	
+	QJsonArray arr1 = userObj["accounts"].toArray();
+	foreach(QJsonValue x, arr1)
+		tempUser.accounts.push_back(x.toInt());
+	
+	QJsonArray arr2 = userObj["loans"].toArray();
+	foreach(QJsonValue x, arr2)
+		tempUser.loans.push_back(x.toInt());
 	return tempUser;
 }
 
