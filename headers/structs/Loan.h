@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <QJsonObject>
 #include "../utilities.h"
