@@ -47,3 +47,15 @@ Bank Bank::getBankStruct(int id)
 {
 	return getBankStruct(getBank(id));
 }
+
+std::vector<Bank> Bank::getAllBanks()
+{
+	std::vector<Bank> allBanks;
+	QJsonObject obj = readFile(Bank::fileName).object();
+	foreach(QJsonValue val, obj)
+	{
+		allBanks.push_back(Bank::getBankStruct(val.toObject()));
+	}
+
+	return allBanks;
+}

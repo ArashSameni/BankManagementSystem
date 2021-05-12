@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
 #include <QJsonObject>
+#include <vector>
 #include "../utilities.h"
+#include "../file.h"
 
 struct Loan
 {
@@ -23,6 +25,7 @@ struct Loan
     static void removeLoan(int id);
     static Loan getLoanStruct(QJsonObject loanObj);
     static Loan getLoanStruct(int id);
+    static std::vector<Loan> getAllLoans();
 };
 
 static Loan newLoan(int requestAccount,

@@ -49,3 +49,15 @@ BankAccount BankAccount::getAccountStruct(int id)
 {
 	return getAccountStruct(getAccount(id));
 }
+
+std::vector<BankAccount> BankAccount::getAllAccounts()
+{
+	std::vector<BankAccount> allAccounts;
+	QJsonObject obj = readFile(BankAccount::fileName).object();
+	foreach(QJsonValue val, obj)
+	{
+		allAccounts.push_back(BankAccount::getAccountStruct(val.toObject()));
+	}
+
+	return allAccounts;
+}

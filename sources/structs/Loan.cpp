@@ -49,3 +49,15 @@ Loan Loan::getLoanStruct(int id)
 {
 	return getLoanStruct(getLoan(id));
 }
+
+std::vector<Loan> Loan::getAllLoans()
+{
+	std::vector<Loan> allLoans;
+	QJsonObject obj = readFile(Loan::fileName).object();
+	foreach(QJsonValue val, obj)
+	{
+		allLoans.push_back(Loan::getLoanStruct(val.toObject()));
+	}
+
+	return allLoans;
+}

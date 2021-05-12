@@ -48,3 +48,15 @@ Transition Transition::getTransitionStruct(int id)
 {
 	return getTransitionStruct(getTransition(id));
 }
+
+std::vector<Transition> Transition::getAllTransitions()
+{
+	std::vector<Transition> allTransitions;
+	QJsonObject obj = readFile(Transition::fileName).object();
+	foreach(QJsonValue val, obj)
+	{
+		allTransitions.push_back(Transition::getTransitionStruct(val.toObject()));
+	}
+
+	return allTransitions;
+}

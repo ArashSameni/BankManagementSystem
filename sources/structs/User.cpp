@@ -62,3 +62,15 @@ User User::getUserStruct(std::string username)
 {
 	return getUserStruct(getUser(username));
 }
+
+std::vector<User> User::getAllUsers()
+{
+	std::vector<User> allUsers;
+	QJsonObject obj = readFile(User::fileName).object();
+	foreach(QJsonValue val, obj)
+	{
+		allUsers.push_back(User::getUserStruct(val.toObject()));
+	}
+
+	return allUsers;
+}

@@ -43,3 +43,15 @@ Address Address::getAddressStruct(int id)
 {
 	return getAddressStruct(getAddress(id));
 }
+
+std::vector<Address> Address::getAllAddresses()
+{
+	std::vector<Address> allAddresses;
+	QJsonObject obj = readFile(Address::fileName).object();
+	foreach(QJsonValue val, obj)
+	{
+		allAddresses.push_back(Address::getAddressStruct(val.toObject()));
+	}
+
+	return allAddresses;
+}

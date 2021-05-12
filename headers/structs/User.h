@@ -1,8 +1,10 @@
 #pragma once
 #include <iostream>
 #include <QJsonObject>
+#include <vector>
 #include "Address.h"
 #include "../utilities.h"
+#include "../file.h"
 
 struct User
 {
@@ -24,6 +26,7 @@ struct User
 	static void removeUser(std::string username);
 	static User getUserStruct(QJsonObject userObj);
 	static User getUserStruct(std::string username);
+    static std::vector<User> getAllUsers();
 };
 
 static User newUser(

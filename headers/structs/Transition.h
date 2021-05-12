@@ -2,8 +2,10 @@
 #include <iostream>
 #include <QJsonObject>
 #include <QString>
+#include <vector>
 #include "../utilities.h"
 #include "BankAccount.h"
+#include "../file.h"
 
 struct Transition
 {
@@ -21,6 +23,7 @@ struct Transition
     static void removeTransition(int id);
     static Transition getTransitionStruct(QJsonObject transitionObj);
     static Transition getTransitionStruct(int id);
+    static std::vector<Transition> getAllTransitions();
 };
 
 static Transition newTransition(int sender,

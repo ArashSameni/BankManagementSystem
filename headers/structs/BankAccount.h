@@ -2,7 +2,9 @@
 #include <iostream>
 #include <QJsonObject>
 #include <QString>
+#include <vector>
 #include "../utilities.h"
+#include "../file.h"
 
 struct BankAccount
 {
@@ -27,6 +29,7 @@ struct BankAccount
     static void removeAccount(int id);
     static BankAccount getAccountStruct(QJsonObject accountObj);
     static BankAccount getAccountStruct(int id);
+    static std::vector<BankAccount> getAllAccounts();
 };
 
 static BankAccount newBankAccount(std::string username,

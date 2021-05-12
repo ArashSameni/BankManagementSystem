@@ -5,6 +5,7 @@
 #include <vector>
 #include <QJsonArray>
 #include "../utilities.h"
+#include "../file.h"
 
 struct Bank
 {
@@ -22,6 +23,7 @@ struct Bank
     static void removeBank(int id);
     static Bank getBankStruct(QJsonObject bankObj);
     static Bank getBankStruct(int id);
+    static std::vector<Bank> getAllBanks();
 };
 
 static Bank newBank(std::string name,

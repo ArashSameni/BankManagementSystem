@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
 #include <QJsonObject>
+#include <vector>
 #include "../utilities.h"
+#include "../file.h"
 
 struct Address
 {
@@ -20,6 +22,7 @@ struct Address
 	static void removeAddress(int id);
 	static Address getAddressStruct(QJsonObject addressObj);
 	static Address getAddressStruct(int id);
+    static std::vector<Address> getAllAddresses();
 };
 
 static Address newAddress(std::string city = "",
