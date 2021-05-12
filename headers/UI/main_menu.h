@@ -8,6 +8,3 @@
 
 void showLogo();
 void mainMenu();
-void loginMenu();
-void signUpMenu();
-void forgotPasswordMenu();

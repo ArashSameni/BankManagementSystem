@@ -42,7 +42,7 @@ Bank Bank::getBankStruct(QJsonObject bankObj)
 	tempBank.totalBalance = bankObj["totalBalance"].toInt();
 	tempBank.foundationDate = bankObj["foundationDate"].toInt();
 
-	QJsonArray arr = bankObj["postalCode"].toArray();
+	QJsonArray arr = bankObj["managers"].toArray();
 	foreach(QJsonValue x, arr)
 		tempBank.managers.push_back(x.toString().toStdString());
 	return tempBank;

@@ -17,6 +17,7 @@ struct User
 	std::string phoneNO;
 	int addressId;		     //Foreign Key
 	bool isBlocked = false;
+	int bankId = 0;          //Foreign Key (manager of which bank)
 
 	static QString fileName;
 	static bool exists(std::string username);

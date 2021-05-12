@@ -133,6 +133,7 @@ void signUpMenu()
 	{
 		std::cout << red << "    invalid Phone Number!" << reset << std::endl;
 		PhoneNO = getStringInput("Phone Number");
+		if (PhoneNO == "-1") return;
 	}
 	
 	std::string city = getStringInput("City", true, true);

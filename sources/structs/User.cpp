@@ -23,6 +23,7 @@ void User::addOrUpdateUser(User user)
 	userObj["phoneNO"] = toQString(user.phoneNO);
 	userObj["addressId"] = user.addressId;
 	userObj["isBlocked"] = false;
+	userObj["bankId"] = user.bankId;
 
 	addOrUpdateObject(User::fileName, toQString(user.username).toLower(), userObj);
 }
@@ -54,6 +55,7 @@ User User::getUserStruct(QJsonObject userObj)
 	tempUser.phoneNO = userObj["phoneNO"].toString().toStdString();
 	tempUser.addressId = userObj["addressId"].toInt();
 	tempUser.isBlocked = userObj["isBlocked"].toBool();
+	tempUser.bankId = userObj["bankId"].toInt();
 	
 	return tempUser;
 }

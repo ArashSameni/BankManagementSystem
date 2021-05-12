@@ -144,7 +144,7 @@ std::string getDateTime(int unixTime, bool getTime)
 	std::string dateTime = to_string(ltm->tm_year + 1900) + "-" + to_string(ltm->tm_mon + 1) + "-" + to_string(ltm->tm_mday);
 
 	if (getTime)
-		dateTime += " " + to_string(ltm->tm_hour + 1) + ":" + to_string(ltm->tm_min);
+		dateTime += " " + to_string(ltm->tm_hour + 1) + ":" + to_string(ltm->tm_min) + ":" + to_string(ltm->tm_sec);
 
 	return dateTime;
 }
