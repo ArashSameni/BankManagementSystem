@@ -19,6 +19,7 @@ struct Bank
 
     static QString fileName;
     static QJsonObject getBank(int id);
+    static bool exists(int id);
     static void addOrUpdateBank(Bank bank);
     static void removeBank(int id);
     static Bank getBankStruct(QJsonObject bankObj);

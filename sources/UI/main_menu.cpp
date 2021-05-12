@@ -1,6 +1,10 @@
 #include <iostream>
 #include "../../headers/UI/main_menu.h"
 
+void loginMenu();
+void signUpMenu();
+void forgotPasswordMenu();
+
 void showLogo()
 {
 	std::cout << std::endl << bright << red;
@@ -135,7 +139,7 @@ void signUpMenu()
 	if (city == "-1") return;
 
 	Address tempAddress = newAddress(city);
-	User tempUser = newUser(username, password, name, 1, PhoneNO, tempAddress.id);
+	newUser(username, password, name, 1, PhoneNO, tempAddress.id);
 	
 	std::cout << std::endl << green << bright << "Your account has been successfully created!" << reset << std::endl;
 	_sleep(1000);
