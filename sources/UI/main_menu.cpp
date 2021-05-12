@@ -97,13 +97,13 @@ void loginMenu()
 			else
 			{
 				std::cout << red << "    Your account is blocked!" << reset << std::endl;
-				_sleep(1000);
+				_sleep(1200);
 			}
 		}
 		else
 		{
 			std::cout << red << "    Username or password is incorrect!" << reset << std::endl;
-			_sleep(1000);
+			_sleep(1200);
 		}
 	}
 }
@@ -143,7 +143,7 @@ void signUpMenu()
 	newUser(username, password, name, 1, PhoneNO, tempAddress.id);
 	
 	std::cout << std::endl << green << bright << "Your account has been successfully created!" << reset << std::endl;
-	_sleep(1000);
+	_sleep(1200);
 }
 
 void forgotPasswordMenu()
@@ -180,5 +180,5 @@ void forgotPasswordMenu()
 	else
 		std::cout << red << "    Phone Numbers doesn't match!" << reset << std::endl;
 
-	_sleep(1000);
+	_sleep(1200);
 }

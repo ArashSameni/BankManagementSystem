@@ -130,7 +130,7 @@ namespace adminPanelNS
 		newBank(bankName, balance);
 
 		std::cout << std::endl << green << bright << "Bank has been added successfully!" << reset << std::endl;
-		_sleep(1000);
+		_sleep(1200);
 		system("cls");
 	}
 
@@ -171,7 +171,7 @@ namespace adminPanelNS
 		else
 			std::cout << red << "    User is already a bank manager!" << reset << std::endl;
 
-		_sleep(1000);
+		_sleep(1200);
 		system("cls");
 	}
 
@@ -200,7 +200,7 @@ namespace adminPanelNS
 		User::addOrUpdateUser(manager);
 
 		std::cout << std::endl << green << bright << "Manager has been successfully removed from bank!" << reset << std::endl;
-		_sleep(1000);
+		_sleep(1200);
 		system("cls");
 	}
 }
