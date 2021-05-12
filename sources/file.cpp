@@ -10,12 +10,24 @@ QJsonDocument readFile(QString fileName)
 	return QJsonDocument::fromJson(byteArray);
 }
 
-
-void writeFile(QString fileName, QJsonDocument& doc)
+void writeFile(QString fileName, QJsonDocument &doc)
 {
 	fileName = "../../" + fileName;
 	QFile file(fileName);
 	file.open(QFile::WriteOnly | QFile::Truncate);
 	file.write(doc.toJson());
 	file.close();
+}
+
+bool fileExists(QString path)
+{
+	QFileInfo check_file(path);
+	if (check_file.exists() && check_file.isFile())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
