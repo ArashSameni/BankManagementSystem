@@ -1,2 +1,2 @@
 # BankSystem
-A little bank system without using OOP methods
+A simple bank management system without using OOP methods

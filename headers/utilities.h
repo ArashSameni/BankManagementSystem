@@ -12,5 +12,8 @@ void removeObject(QString fileName, QString identifier);
 bool existsObject(QString fileName, QString identifier);
 int countOfObjects(QString fileName);
 
-std::string getStringInput(std::string inputName, bool required = true);
+int getMenuInput(int max);
+std::string getStringInput(std::string inputName, bool required = true, bool withSpace = false);
 int getIntInput(std::string inputName, bool required = true);
+
+bool is_digits(const std::string& str);

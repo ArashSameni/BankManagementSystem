@@ -1,4 +1,5 @@
 #include "../headers/utilities.h"
+#include "../headers/UI/colors.h"
 
 QString toQString(std::string str)
 {
@@ -45,19 +46,54 @@ int countOfObjects(QString fileName)
 	return fileObj.keys().count();
 }
 
-std::string getStringInput(std::string inputName, bool required)
+int getMenuInput(int max)
+{
+	int res = 0;
+	std::string inp = "";
+	while (true)
+	{
+		std::cout << cyan << "  Input: " << reset;
+		std::getline(std::cin, inp);
+		if (inp == "-1")
+			return -1;
+		else if (!inp.empty())
+		{
+			try
+			{
+				res = std::stoi(inp);
+				if (res < 1 || res > max)
+					std::cout << red << "    " << "Wrong input!" << reset << std::endl << std::endl;
+				else
+					break;
+			}
+			catch (...)
+			{
+				std::cout << red << "    " << "Wrong input!" << reset << std::endl << std::endl;
+			}
+		}
+		else
+			std::cout << red << "    " << "Wrong input!" << reset << std::endl << std::endl;
+	}
+	return res;
+}
+
+std::string getStringInput(std::string inputName, bool required, bool withSpace)
 {
 	std::string inp = "";
 	if (!required)
 		inputName += "(Enter to skip)";
 	while (true)
 	{
-		std::cout << inputName << ": ";
+		std::cout << cyan << "  " << inputName << ": " << reset;
 		std::getline(std::cin, inp);
-		if (!required || !inp.empty())
+		if (inp == "-1")
+			return inp;
+		else if(!withSpace && inp.find(" ") != std::string::npos)
+			std::cout << red << "    invalid " << inputName << "!" << reset << std::endl;
+		else if (!required || !inp.empty())
 			break;
 		else
-			std::cout << inputName << " is required!" << std::endl;
+			std::cout << red << "    " << inputName << " is required!" << reset << std::endl;
 	}
 	return inp;
 }
@@ -70,25 +106,32 @@ int getIntInput(std::string inputName, bool required)
 		inputName += "(Enter to skip)";
 	while (true)
 	{
-		std::cout << inputName << ": ";
+		std::cout << cyan << "  " << inputName << ": " << reset;
 		std::getline(std::cin, inp);
-		if (!inp.empty())
+		if (inp == "-1")
+			return -1;
+		else if (!inp.empty())
 		{
 			try
 			{
 				res = std::stoi(inp);
 				break;
 			}
-			catch (...) 
+			catch (...)
 			{
-				std::cout << "Please enter valid " << inputName << std::endl;
+				std::cout << red << "    " << "Please enter valid " << inputName << reset << std::endl;
 			}
 		}
 		else if (!required)
 			break;
 		else
-			std::cout << inputName << " is required!" << std::endl;
+			std::cout << red << "    " << inputName << " is required!" << reset << std::endl;
 	}
 
 	return res;
+}
+
+bool is_digits(const std::string& str)
+{
+	return str.find_first_not_of("0123456789") == std::string::npos;
 }

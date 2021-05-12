@@ -10,12 +10,13 @@
 #include "headers/file.h"
 #include "headers/UI/main_menu.h"
 
-void createFile(QString path);
 void InitializeProject();
 
 int main(int argc, char* argv[])
 {
 	InitializeProject();
+	showLogo();
+	mainMenu();
 	return 0;
 }
 
