@@ -25,6 +25,7 @@ struct BankAccount
 
     static QString fileName;
     static QJsonObject getAccount(int id);
+    static bool exists(int id);
     static void addOrUpdateAccount(BankAccount account);
     static void removeAccount(int id);
     static BankAccount getAccountStruct(QJsonObject accountObj);

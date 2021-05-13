@@ -8,6 +8,11 @@ QJsonObject BankAccount::getAccount(int id)
 	return getObject(BankAccount::fileName, QString::number(id));
 }
 
+bool BankAccount::exists(int id)
+{
+	return existsObject(BankAccount::fileName, QString::number(id));
+}
+
 void BankAccount::addOrUpdateAccount(BankAccount account)
 {
 	QJsonObject accountObj;
