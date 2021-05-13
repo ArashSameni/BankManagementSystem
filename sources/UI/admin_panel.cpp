@@ -188,18 +188,24 @@ namespace adminPanelNS
 			if (username == "-1") return;
 		}
 
-
+		
 		User manager = User::getUserStruct(username);
-		manager.type = 1;
+		if (manager.type == 2)
+		{
+			manager.type = 1;
 
-		Bank bank = Bank::getBankStruct(manager.bankId);
-		bank.managers.erase(std::remove(bank.managers.begin(), bank.managers.end(), manager.username), bank.managers.end());
-		Bank::addOrUpdateBank(bank);
+			Bank bank = Bank::getBankStruct(manager.bankId);
+			bank.managers.erase(std::remove(bank.managers.begin(), bank.managers.end(), manager.username), bank.managers.end());
+			Bank::addOrUpdateBank(bank);
 
-		manager.bankId = 0;
-		User::addOrUpdateUser(manager);
+			manager.bankId = 0;
+			User::addOrUpdateUser(manager);
 
-		std::cout << std::endl << green << bright << "Manager has been successfully removed from bank!" << reset << std::endl;
+			std::cout << std::endl << green << bright << "Manager has been successfully removed from bank!" << reset << std::endl;
+		}
+		else
+			std::cout << red << "    This user isn't a manager!" << reset << std::endl;
+
 		_sleep(1200);
 		system("cls");
 	}

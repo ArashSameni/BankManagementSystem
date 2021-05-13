@@ -17,13 +17,6 @@ void Transition::addOrUpdateTransition(Transition transition)
 	transitionObj["amount"] = transition.amount;
 	transitionObj["transitionDate"] = transition.transitionDate;
 
-	BankAccount sender = BankAccount::getAccountStruct(transition.sender);
-	BankAccount receiver = BankAccount::getAccountStruct(transition.receiver);
-	sender.balance -= transition.amount;
-	receiver.balance += transition.amount;
-	BankAccount::addOrUpdateAccount(sender);
-	BankAccount::addOrUpdateAccount(receiver);
-	
 	addOrUpdateObject(Transition::fileName, QString::number(transition.id), transitionObj);
 }
 

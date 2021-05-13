@@ -35,5 +35,15 @@ static Transition newTransition(int sender,
     tempTransition.sender = sender;
     tempTransition.receiver = receiver;
     tempTransition.amount = amount;
+
+    BankAccount senderAcc = BankAccount::getAccountStruct(tempTransition.sender);
+    BankAccount receiverAcc = BankAccount::getAccountStruct(tempTransition.receiver);
+    senderAcc.balance -= tempTransition.amount;
+    receiverAcc.balance += tempTransition.amount;
+    BankAccount::addOrUpdateAccount(senderAcc);
+    BankAccount::addOrUpdateAccount(receiverAcc);
+
+    Transition::addOrUpdateTransition(tempTransition);
+	
     return tempTransition;
 }

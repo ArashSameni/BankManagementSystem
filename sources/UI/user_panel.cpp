@@ -9,6 +9,7 @@ namespace userPanelNS
 	void transferMoney(User user);
 	void createAccount(User user);
 	void applyLoan(User user);
+	void editProfile(User user);
 }
 
 void userPanel(User authenticatedUser)
@@ -25,7 +26,7 @@ void userPanel(User authenticatedUser)
 		std::cout << "    4.Transfer Money" << std::endl;
 		std::cout << "    5.Create Bank Account" << std::endl;
 		std::cout << "    6.Apply for a loan" << std::endl;
-		std::cout << "    7.Change Profile" << std::endl;
+		std::cout << "    7.Edit Profile" << std::endl;
 		std::cout << "    8.Exit" << std::endl;
 
 		int input = getMenuInput(6);
@@ -102,7 +103,7 @@ namespace userPanelNS
 				accountStatus = green + "Accepted" + reset;
 				break;
 			}
-			std::cout << "      Account status: " << accountStatus << std::endl ;
+			std::cout << "      Account status: " << accountStatus << std::endl;
 			std::cout << bright << cyan << "    ==========================================" << reset << std::endl << std::endl;
 		}
 		std::string tmp;
@@ -123,10 +124,10 @@ namespace userPanelNS
 			std::cout << bright << cyan << "    ==========================================" << reset << std::endl;
 			std::cout << bright << green << "      LoanId: " << loan.id << reset << std::endl;
 			std::cout << bright << yellow << "      Loan amount: " << loan.amount << reset << std::endl;
-			
+
 			std::cout << "      Request account: " << loan.fRequestAccount << std::endl;
 			std::cout << "      Payment account: " << payAcc.id << "      Balance: " << payAcc.balance << std::endl;
-			
+
 			std::cout << "      BankId: " << bank.id << "      Bank name: " << bank.name << std::endl;
 
 			std::string accountStatus = "";
@@ -143,9 +144,9 @@ namespace userPanelNS
 				break;
 			}
 			std::cout << "      Account status: " << accountStatus << std::endl;
-			
+
 			std::cout << "      Payments count: " << loan.countOfPayments << std::endl;
-			if(loan.countOfPayments)
+			if (loan.countOfPayments)
 				std::cout << "      Last payment date: " << getDateTime(loan.lastTimePayed) << std::endl;
 			std::cout << "      Requisition Date: " << getDateTime(loan.requisitionDate) << std::endl;
 			std::cout << bright << cyan << "    ==========================================" << reset << std::endl << std::endl;
@@ -174,7 +175,62 @@ namespace userPanelNS
 
 	void transferMoney(User user)
 	{
+		std::cout << std::endl << cyan << " Transfer Money" << reset << std::endl << std::endl;
 
+		std::vector<int>& v = user.accounts;
+
+		int senderAccId = getIntInput("Your Account Id");
+		if (senderAccId == -1) return;
+		while (std::find(v.begin(), v.end(), senderAccId) == v.end())
+		{
+			std::cout << red << "    it's not your account!" << reset << std::endl;
+			senderAccId = getIntInput("Your Account Id");
+			if (senderAccId == -1) return;
+		}
+
+		BankAccount sender = BankAccount::getAccountStruct(senderAccId);
+		if (sender.status == 1)
+		{
+			int receiverAccId = getIntInput("Receiver Account Id");
+			if (receiverAccId == -1) return;
+			while (!BankAccount::exists(receiverAccId))
+			{
+				std::cout << red << "    Account doesn't exist!" << reset << std::endl;
+				receiverAccId = getIntInput("Receiver Account Id");
+				if (receiverAccId == -1) return;
+			}
+			if (senderAccId != receiverAccId)
+			{
+				BankAccount receiver = BankAccount::getAccountStruct(receiverAccId);
+				if (receiver.status == 1)
+				{
+					int amount = getIntInput("Amount");
+					if (amount == -1) return;
+					while (amount <= 0)
+					{
+						std::cout << red << "    Amount isn't valid!" << reset << std::endl;
+						amount = getIntInput("Amount");
+						if (amount == -1) return;
+					}
+					if (sender.balance >= amount)
+					{
+						newTransition(senderAccId, receiverAccId, amount);
+						std::cout << std::endl << green << bright << "Transaction Successful!" << reset << std::endl;
+					}
+					else
+						std::cout << red << "    Account doesn't have enough money!" << reset << std::endl;
+				}
+				else
+					std::cout << red << "    Receiver account is disabled!" << reset << std::endl;
+			}
+			else
+				std::cout << std::endl << red << "        ◉_◉" << reset << std::endl;
+		}
+		else
+			std::cout << red << "    Your account has not been accepted yet!" << reset << std::endl;
+
+		_sleep(1200);
+		system("cls");
 	}
 
 	void createAccount(User user)
@@ -221,6 +277,11 @@ namespace userPanelNS
 	}
 
 	void applyLoan(User user)
+	{
+
+	}
+
+	void editProfile(User user)
 	{
 
 	}
