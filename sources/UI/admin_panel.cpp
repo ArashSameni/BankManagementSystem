@@ -23,9 +23,10 @@ void adminPanel(User authenticatedUser)
 		std::cout << "    3.Add Bank" << std::endl;
 		std::cout << "    4.Promote user to manager" << std::endl;
 		std::cout << "    5.Demote user" << std::endl;
-		std::cout << "    6.Exit" << std::endl;
+		std::cout << "    6.Edit Profile" << std::endl;
+		std::cout << "    7.Exit" << std::endl;
 
-		int input = getMenuInput(6);
+		int input = getMenuInput(7);
 		switch (input)
 		{
 		case 1:
@@ -43,9 +44,12 @@ void adminPanel(User authenticatedUser)
 		case 5:
 			demoteUser();
 			break;
+		case 6:
+			editProfileNS::editProfile(authenticatedUser);
+			break;
 		case -1:
 			return;
-		case 6:
+		case 7:
 			exit(0);
 		}
 	}
