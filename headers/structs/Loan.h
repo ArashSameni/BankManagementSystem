@@ -15,7 +15,9 @@ struct Loan
     int fBankId;           // Foreign Key
     int amount;
     int status = 0;       // 0: Pending, -1: Rejected, 1: Accepted
-    int countOfPayments = 0;
+    int countOfPayments;
+    int countOfPaid = 0;
+    bool isFinished = false;
     time_t lastTimePayed = 0;
     time_t requisitionDate = time(0);
 
@@ -26,11 +28,13 @@ struct Loan
     static Loan getLoanStruct(QJsonObject loanObj);
     static Loan getLoanStruct(int id);
     static std::vector<Loan> getAllLoans();
+    static bool exists(int id);
 };
 
 static Loan newLoan(int requestAccount,
                     int bankId,
                     int amount,
+					int countOfPayments,
                     int paymentAccount = 0)
 {
     Loan tempLoan;
@@ -41,6 +45,7 @@ static Loan newLoan(int requestAccount,
         tempLoan.fPaymentAccount = paymentAccount;
     tempLoan.fBankId = bankId;
     tempLoan.amount = amount;
+    tempLoan.countOfPayments = countOfPayments;
 
     Loan::addOrUpdateLoan(tempLoan);
 	

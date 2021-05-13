@@ -8,6 +8,11 @@ QJsonObject Loan::getLoan(int id)
 	return getObject(Loan::fileName, QString::number(id));
 }
 
+bool Loan::exists(int id)
+{
+	return existsObject(Loan::fileName, QString::number(id));
+}
+
 void Loan::addOrUpdateLoan(Loan loan)
 {
 	QJsonObject loanObj;
@@ -18,6 +23,8 @@ void Loan::addOrUpdateLoan(Loan loan)
 	loanObj["amount"] = loan.amount;
 	loanObj["status"] = loan.status;
 	loanObj["countOfPayments"] = loan.countOfPayments;
+	loanObj["countOfPaid"] = loan.countOfPaid;
+	loanObj["isFinished"] = loan.isFinished;
 	loanObj["lastTimePayed"] = loan.lastTimePayed;
 	loanObj["requisitionDate"] = loan.requisitionDate;
 
@@ -39,6 +46,8 @@ Loan Loan::getLoanStruct(QJsonObject loanObj)
 	tempLoan.amount = loanObj["amount"].toInt();
 	tempLoan.status = loanObj["status"].toInt();
 	tempLoan.countOfPayments = loanObj["countOfPayments"].toInt();
+	tempLoan.countOfPaid = loanObj["countOfPaid"].toInt();
+	tempLoan.isFinished = loanObj["isFinished"].toBool();
 	tempLoan.lastTimePayed = loanObj["lastTimePayed"].toInt();
 	tempLoan.requisitionDate = loanObj["requisitionDate"].toInt();
 
