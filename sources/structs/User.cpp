@@ -17,7 +17,7 @@ void User::addOrUpdateUser(User user)
 	QJsonObject userObj;
 	userObj["type"] = user.type;
 	userObj["name"] = toQString(user.name);
-	userObj["username"] = toQString(user.username);
+	userObj["username"] = toQString(user.username).toLower();
 	userObj["password"] = toQString(user.password);
 	userObj["phoneNO"] = toQString(user.phoneNO);
 	userObj["addressId"] = user.addressId;

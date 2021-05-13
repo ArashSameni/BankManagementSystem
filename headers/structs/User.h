@@ -42,7 +42,7 @@ static User newUser(
 	User tempUser;
 	tempUser.type = type;
 	tempUser.name = name;
-	tempUser.username = username;
+	tempUser.username = QString::fromStdString(username).toLower().toStdString();
 	tempUser.password = password;
 	tempUser.phoneNO = phoneNO;
 	tempUser.addressId = addressId;
