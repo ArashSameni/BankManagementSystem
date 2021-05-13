@@ -4,6 +4,7 @@
 namespace userPanelNS
 {
 	void accountsList(User user);
+	void transitionsList(User user);
 	void loansList(User user);
 	void banksList();
 	void transferMoney(User user);
@@ -21,13 +22,14 @@ void userPanel(User authenticatedUser)
 		std::cout << std::endl << bright << yellow << "             Welcome " << authenticatedUser.name << reset << std::endl;
 		std::cout << std::endl << cyan << "  User Panel :" << reset << std::endl << std::endl;
 		std::cout << "    1.Accounts List" << std::endl;
-		std::cout << "    2.Loans List" << std::endl;
-		std::cout << "    3.Banks List" << std::endl;
-		std::cout << "    4.Transfer Money" << std::endl;
-		std::cout << "    5.Create Bank Account" << std::endl;
-		std::cout << "    6.Apply for a loan" << std::endl;
-		std::cout << "    7.Edit Profile" << std::endl;
-		std::cout << "    8.Exit" << std::endl;
+		std::cout << "    2.Transitions List" << std::endl;
+		std::cout << "    3.Loans List" << std::endl;
+		std::cout << "    4.Banks List" << std::endl;
+		std::cout << "    5.Transfer Money" << std::endl;
+		std::cout << "    6.Create Bank Account" << std::endl;
+		std::cout << "    7.Apply for a loan" << std::endl;
+		std::cout << "    8.Edit Profile" << std::endl;
+		std::cout << "    9.Exit" << std::endl;
 
 		int input = getMenuInput(6);
 		switch (input)
@@ -36,23 +38,29 @@ void userPanel(User authenticatedUser)
 			accountsList(authenticatedUser);
 			break;
 		case 2:
-			loansList(authenticatedUser);
+			transitionsList(authenticatedUser);
 			break;
 		case 3:
-			banksList();
+			loansList(authenticatedUser);
 			break;
 		case 4:
-			transferMoney(authenticatedUser);
+			banksList();
 			break;
 		case 5:
-			createAccount(authenticatedUser);
+			transferMoney(authenticatedUser);
 			break;
 		case 6:
+			createAccount(authenticatedUser);
+			break;
+		case 7:
 			applyLoan(authenticatedUser);
+			break;
+		case 8:
+			editProfile(authenticatedUser);
 			break;
 		case -1:
 			return;
-		case 8:
+		case 9:
 			exit(0);
 		}
 	}
@@ -105,6 +113,39 @@ namespace userPanelNS
 			}
 			std::cout << "      Account status: " << accountStatus << std::endl;
 			std::cout << bright << cyan << "    ==========================================" << reset << std::endl << std::endl;
+		}
+		std::string tmp;
+		std::getline(std::cin, tmp);
+	}
+
+	void transitionsList(User user)
+	{
+		system("cls");
+		std::vector<Transition> allTransitions = Transition::getAllTransitions();
+		std::cout << std::endl << cyan << "  Transitions :" << reset << std::endl << std::endl;
+		for (int i = 0; i < allTransitions.size(); i++)
+		{
+			std::vector<int>& v = user.accounts;
+			Transition& tran = allTransitions[i];
+
+			bool userIsSender = false;
+			bool userIsReceiver = false;
+			if (std::find(v.begin(), v.end(), tran.sender) != v.end())
+				userIsSender = true;
+			else if (std::find(v.begin(), v.end(), tran.receiver) != v.end())
+				userIsReceiver = true;
+
+			if (userIsSender || userIsReceiver)
+			{
+				std::cout << "    " << std::to_string(i + 1) << "." << std::endl;
+				std::cout << bright << cyan << "    ==========================================" << reset << std::endl;
+				std::cout << bright << yellow << "      TransitionId: " << tran.id << reset << std::endl;
+				std::cout << "      Sender: " << tran.sender << (userIsSender ? green + " (Your account)" + reset : "") << std::endl;
+				std::cout << "      Receiver: " << tran.receiver << (userIsReceiver ? green + " (Your account)" + reset : "") << std::endl;
+				std::cout << "      Amount: " << tran.amount << std::endl;
+				std::cout << "      Transition Date: " << getDateTime(tran.transitionDate, true) << std::endl;
+				std::cout << bright << cyan << "    ==========================================" << reset << std::endl << std::endl;
+			}
 		}
 		std::string tmp;
 		std::getline(std::cin, tmp);
