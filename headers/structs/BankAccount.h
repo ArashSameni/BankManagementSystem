@@ -19,7 +19,7 @@ struct BankAccount
     // 30% for long-term accounts
     // 50% for special accounts
     float interestRate = 0.1;
-    bool isActive = true;
+    int status = 0;        // -1: Rejected 0:Pending 1:Accepted
     time_t createDate = time(0);
     time_t lastInterestDate = time(0);
 
