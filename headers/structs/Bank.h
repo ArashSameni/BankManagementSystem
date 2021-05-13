@@ -15,6 +15,8 @@ struct Bank
     std::string name;
     int totalBalance = 5000000;
     std::vector<std::string> managers;        // Foreign Key
+    std::vector<int> accounts;
+    std::vector<int> loans;
     time_t foundationDate = time(0);
 
     static QString fileName;

@@ -26,6 +26,16 @@ void Bank::addOrUpdateBank(Bank bank)
 		arr.append(QJsonValue(toQString(bank.managers[i])));
 	bankObj["managers"] = arr;
 
+	QJsonArray arr1;
+	for (int i = 0; i < bank.accounts.size(); i++)
+		arr1.append(QJsonValue(bank.accounts[i]));
+	bankObj["accounts"] = arr1;
+
+	QJsonArray arr2;
+	for (int i = 0; i < bank.loans.size(); i++)
+		arr2.append(QJsonValue(bank.loans[i]));
+	bankObj["loans"] = arr2;
+
 	addOrUpdateObject(Bank::fileName, QString::number(bank.id), bankObj);
 }
 
@@ -45,6 +55,15 @@ Bank Bank::getBankStruct(QJsonObject bankObj)
 	QJsonArray arr = bankObj["managers"].toArray();
 	foreach(QJsonValue x, arr)
 		tempBank.managers.push_back(x.toString().toStdString());
+
+	QJsonArray arr1 = bankObj["accounts"].toArray();
+	foreach(QJsonValue x, arr1)
+		tempBank.accounts.push_back(x.toInt());
+
+	QJsonArray arr2 = bankObj["loans"].toArray();
+	foreach(QJsonValue x, arr2)
+		tempBank.loans.push_back(x.toInt());
+
 	return tempBank;
 }
 
