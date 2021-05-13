@@ -307,10 +307,12 @@ namespace userPanelNS
 			if (balance == -1) return;
 		}
 
+		Bank bank = Bank::getBankStruct(bankId);
 		BankAccount acc = newBankAccount(user.username, bankId, type, balance);
+		bank.accounts.push_back(acc.id);
 		user.accounts.push_back(acc.id);
 		User::addOrUpdateUser(user);
-
+		Bank::addOrUpdateBank(bank);
 		std::cout << std::endl << green << bright << "Requisition has been sent to bank!" << reset << std::endl;
 		_sleep(1200);
 	}
@@ -344,20 +346,22 @@ namespace userPanelNS
 
 		int payerId = getIntInput("Loan Payer", false);
 		if (payerId == -1) return;
-		else if(payerId != 0)
+		else if (payerId != 0)
 			while (std::find(v.begin(), v.end(), payerId) == v.end())
 			{
 				std::cout << red << "    it's not your account!" << reset << std::endl;
 				payerId = getIntInput("Loan Payer");
 				if (payerId == -1) return;
 			}
-		
+
 		int bankId = BankAccount::getAccountStruct(receiverId).fBankId;
+		Bank bank = Bank::getBankStruct(bankId);
 		Loan loan = newLoan(receiverId, bankId, amount, payerId);
-		
+		bank.loans.push_back(loan.id);
 		user.loans.push_back(loan.id);
 		User::addOrUpdateUser(user);
-		
+		Bank::addOrUpdateBank(bank);
+
 		std::cout << std::endl << green << bright << "Requisition has been sent to bank!" << reset << std::endl;
 		_sleep(1200);
 	}
