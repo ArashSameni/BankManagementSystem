@@ -1,16 +1,14 @@
 #include "../../headers/UI/user_panel.h"
 
-
 namespace userPanelNS
 {
-	void accountsList(User user);
-	void transitionsList(User user);
-	void loansList(User user);
+	void accountsList(User& user);
+	void transitionsList(User& user);
+	void loansList(User& user);
 	void banksList();
-	void transferMoney(User user);
-	void createAccount(User user);
-	void applyLoan(User user);
-	void editProfile(User user);
+	void transferMoney(User& user);
+	void createAccount(User& user);
+	void applyLoan(User& user);
 }
 
 void userPanel(User authenticatedUser)
@@ -31,7 +29,7 @@ void userPanel(User authenticatedUser)
 		std::cout << "    8.Edit Profile" << std::endl;
 		std::cout << "    9.Exit" << std::endl;
 
-		int input = getMenuInput(6);
+		int input = getMenuInput(9);
 		switch (input)
 		{
 		case 1:
@@ -56,7 +54,7 @@ void userPanel(User authenticatedUser)
 			applyLoan(authenticatedUser);
 			break;
 		case 8:
-			editProfile(authenticatedUser);
+			editProfileNS::editProfile(authenticatedUser);
 			break;
 		case -1:
 			return;
@@ -68,7 +66,7 @@ void userPanel(User authenticatedUser)
 
 namespace userPanelNS
 {
-	void accountsList(User user)
+	void accountsList(User& user)
 	{
 		system("cls");
 		std::cout << std::endl << cyan << "  Accounts :" << reset << std::endl << std::endl;
@@ -118,7 +116,7 @@ namespace userPanelNS
 		std::getline(std::cin, tmp);
 	}
 
-	void transitionsList(User user)
+	void transitionsList(User& user)
 	{
 		system("cls");
 		std::vector<Transition> allTransitions = Transition::getAllTransitions();
@@ -151,11 +149,11 @@ namespace userPanelNS
 		std::getline(std::cin, tmp);
 	}
 
-	void loansList(User user)
+	void loansList(User& user)
 	{
 		system("cls");
 		std::cout << std::endl << cyan << "  Loans :" << reset << std::endl << std::endl;
-		for (int i = 0; i < user.accounts.size(); i++)
+		for (int i = 0; i < user.loans.size(); i++)
 		{
 			Loan loan = Loan::getLoanStruct(user.loans[i]);
 			Bank bank = Bank::getBankStruct(loan.fBankId);
@@ -214,7 +212,7 @@ namespace userPanelNS
 		std::getline(std::cin, tmp);
 	}
 
-	void transferMoney(User user)
+	void transferMoney(User& user)
 	{
 		std::cout << std::endl << cyan << " Transfer Money" << reset << std::endl << std::endl;
 
@@ -274,10 +272,10 @@ namespace userPanelNS
 		system("cls");
 	}
 
-	void createAccount(User user)
+	void createAccount(User& user)
 	{
-		system("cls");
-		std::cout << std::endl;
+		std::cout << std::endl << cyan << " Create Bank Account" << reset << std::endl << std::endl;
+
 		int bankId = getIntInput("BankId");
 		if (bankId == -1) return;
 		while (!Bank::exists(bankId))
@@ -317,13 +315,50 @@ namespace userPanelNS
 		_sleep(1200);
 	}
 
-	void applyLoan(User user)
+	void applyLoan(User& user)
 	{
+		std::cout << std::endl << cyan << " Apply For Loan" << reset << std::endl << std::endl;
 
-	}
+		int amount = getIntInput("Amount");
+		if (amount == -1) return;
+		while (amount < 0 || amount > 3000000)
+		{
+			if (amount < 0)
+				std::cout << red << "    invalid Amount!" << reset << std::endl;
+			else if (amount > 3000000)
+				std::cout << red << "    its too much :)!" << reset << std::endl;
 
-	void editProfile(User user)
-	{
+			amount = getIntInput("Amount");
+			if (amount == -1) return;
+		}
 
+		std::vector<int>& v = user.accounts;
+		int receiverId = getIntInput("Loan Receiver");
+		if (receiverId == -1) return;
+		while (std::find(v.begin(), v.end(), receiverId) == v.end())
+		{
+			std::cout << red << "    it's not your account!" << reset << std::endl;
+			receiverId = getIntInput("Loan Receiver");
+			if (receiverId == -1) return;
+		}
+
+		int payerId = getIntInput("Loan Payer", false);
+		if (payerId == -1) return;
+		else if(payerId != 0)
+			while (std::find(v.begin(), v.end(), payerId) == v.end())
+			{
+				std::cout << red << "    it's not your account!" << reset << std::endl;
+				payerId = getIntInput("Loan Payer");
+				if (payerId == -1) return;
+			}
+		
+		int bankId = BankAccount::getAccountStruct(receiverId).fBankId;
+		Loan loan = newLoan(receiverId, bankId, amount, payerId);
+		
+		user.loans.push_back(loan.id);
+		User::addOrUpdateUser(user);
+		
+		std::cout << std::endl << green << bright << "Requisition has been sent to bank!" << reset << std::endl;
+		_sleep(1200);
 	}
 }
