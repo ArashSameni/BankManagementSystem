@@ -79,25 +79,17 @@ void loginMenu()
 		if (User::authenticate(username, password))
 		{
 			User authenticatedUser = User::getUserStruct(username);
-			if (!authenticatedUser.isBlocked)
+			switch (authenticatedUser.type)
 			{
-				switch (authenticatedUser.type)
-				{
-				case 1:
-					userPanel(authenticatedUser);
-					break;
-				case 2:
-					managerPanel(authenticatedUser);
-					break;
-				case 3:
-					adminPanel(authenticatedUser);
-					break;
-				}
-			}
-			else
-			{
-				std::cout << red << "    Your account is blocked!" << reset << std::endl;
-				_sleep(1200);
+			case 1:
+				userPanel(authenticatedUser);
+				break;
+			case 2:
+				managerPanel(authenticatedUser);
+				break;
+			case 3:
+				adminPanel(authenticatedUser);
+				break;
 			}
 		}
 		else

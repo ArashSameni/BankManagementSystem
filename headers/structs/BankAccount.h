@@ -18,7 +18,7 @@ struct BankAccount
     // 10% for short-term accounts
     // 30% for long-term accounts
     // 50% for special accounts
-    float interestRate = 0.1;
+    float interestRate = 1.1;
     int status = 0;        // -1: Rejected 0:Pending 1:Accepted
     time_t createDate = time(0);
     time_t lastInterestDate = time(0);
@@ -45,10 +45,10 @@ static BankAccount newBankAccount(std::string username,
     switch (type)
     {
     case 2:
-        tempBankAccount.interestRate = 0.3;
+        tempBankAccount.interestRate = 1.3;
         break;
     case 3:
-        tempBankAccount.interestRate = 0.5;
+        tempBankAccount.interestRate = 1.5;
         break;
     }
     tempBankAccount.balance = balance;

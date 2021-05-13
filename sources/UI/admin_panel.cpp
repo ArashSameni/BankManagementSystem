@@ -62,14 +62,14 @@ namespace adminPanelNS
 		{
 			std::cout << "    " << std::to_string(i + 1) << "." << std::endl;
 			std::cout << bright << cyan << "    ==========================================" << reset << std::endl;
-			std::cout << bright << yellow << "      BankId: " << allBanks[i].id << reset << std::endl << std::endl;
-			std::cout << "      Bank name: " << allBanks[i].name << std::endl << std::endl;
+			std::cout << bright << green << "      BankId: " << allBanks[i].id << reset << std::endl << std::endl;
+			std::cout << bright << yellow << "      Bank name: " << allBanks[i].name << reset << std::endl << std::endl;
 			std::cout << "      Total Balance: " << allBanks[i].totalBalance << std::endl << std::endl;
 
-			std::cout << "      Managers: " << std::endl;
+			std::cout << bright << magenta << "      Managers: " << std::endl;
 			for (int j = 0; j < allBanks[i].managers.size(); j++)
 				std::cout << "        " << allBanks[i].managers[j] << std::endl;
-			std::cout << std::endl;
+			std::cout << reset << std::endl;
 
 			std::cout << "      Foundation Date: " << getDateTime(allBanks[i].foundationDate) << std::endl;
 			std::cout << bright << cyan << "    ==========================================" << reset << std::endl << std::endl;

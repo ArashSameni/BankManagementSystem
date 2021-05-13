@@ -18,4 +18,4 @@ std::string getStringInput(std::string inputName, bool required = true, bool wit
 int getIntInput(std::string inputName, bool required = true);
 
 bool is_digits(const std::string& str);
-std::string getDateTime(int unixTime, bool getTime = false);
+std::string getDateTime(time_t unixTime, bool getTime = false);
