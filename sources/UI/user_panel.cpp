@@ -9,11 +9,16 @@ namespace userPanelNS
 	void transferMoney(User& user);
 	void createAccount(User& user);
 	void applyLoan(User& user);
+
+	void payLoans(User& user);
+	void getInterests(User& user);
+	void blockUser(User& user, int bankId);
 }
 
 void userPanel(User authenticatedUser)
 {
 	using namespace userPanelNS;
+	initialUser(authenticatedUser);
 	while (true)
 	{
 		system("cls");
@@ -64,6 +69,12 @@ void userPanel(User authenticatedUser)
 	}
 }
 
+void initialUser(User& User)
+{
+	userPanelNS::payLoans(User);
+	userPanelNS::getInterests(User);
+}
+
 namespace userPanelNS
 {
 	void accountsList(User& user)
@@ -99,6 +110,9 @@ namespace userPanelNS
 			std::string accountStatus = "";
 			switch (acc.status)
 			{
+			case -2:
+				accountStatus = red + "Blocked" + reset;
+				break;
 			case -1:
 				accountStatus = red + "Rejected" + reset;
 				break;
@@ -180,6 +194,9 @@ namespace userPanelNS
 				break;
 			case 1:
 				loanStatus = green + "Accepted" + reset;
+				break;
+			case 2:
+				loanStatus = blue + "Finished" + reset;
 				break;
 			}
 			std::cout << "      Loan status: " << loanStatus << std::endl;
@@ -277,40 +294,46 @@ namespace userPanelNS
 	{
 		std::cout << std::endl << cyan << " Create Bank Account" << reset << std::endl << std::endl;
 
-		int bankId = getIntInput("BankId");
-		if (bankId == -1) return;
-		while (!Bank::exists(bankId))
+		if (!user.isBlocked)
 		{
-			std::cout << red << "    invalid BankId!" << reset << std::endl;
-			bankId = getIntInput("BankId");
+			int bankId = getIntInput("BankId");
 			if (bankId == -1) return;
-		}
+			while (!Bank::exists(bankId))
+			{
+				std::cout << red << "    invalid BankId!" << reset << std::endl;
+				bankId = getIntInput("BankId");
+				if (bankId == -1) return;
+			}
 
-		int type = getIntInput("Type(1: short-term, 2: long-term, 3: special)");
-		if (type == -1) return;
-		while (type < 1 || type > 3)
-		{
-			std::cout << red << "    invalid Account-Type!" << reset << std::endl;
-			type = getIntInput("Type(1: short-term, 2: long-term, 3: special)");
+			int type = getIntInput("Type(1: short-term, 2: long-term, 3: special)");
 			if (type == -1) return;
-		}
+			while (type < 1 || type > 3)
+			{
+				std::cout << red << "    invalid Account-Type!" << reset << std::endl;
+				type = getIntInput("Type(1: short-term, 2: long-term, 3: special)");
+				if (type == -1) return;
+			}
 
-		int balance = getIntInput("Balance");
-		if (balance == -1) return;
-		while (balance < 0)
-		{
-			std::cout << red << "    invalid Balance!" << reset << std::endl;
-			balance = getIntInput("Balance");
+			int balance = getIntInput("Balance");
 			if (balance == -1) return;
-		}
+			while (balance < 0)
+			{
+				std::cout << red << "    invalid Balance!" << reset << std::endl;
+				balance = getIntInput("Balance");
+				if (balance == -1) return;
+			}
 
-		Bank bank = Bank::getBankStruct(bankId);
-		BankAccount acc = newBankAccount(user.username, bankId, type, balance);
-		bank.accounts.push_back(acc.id);
-		user.accounts.push_back(acc.id);
-		User::addOrUpdateUser(user);
-		Bank::addOrUpdateBank(bank);
-		std::cout << std::endl << green << bright << "Requisition has been sent to bank!" << reset << std::endl;
+			Bank bank = Bank::getBankStruct(bankId);
+			BankAccount acc = newBankAccount(user.username, bankId, type, balance);
+			bank.accounts.push_back(acc.id);
+			user.accounts.push_back(acc.id);
+			User::addOrUpdateUser(user);
+			Bank::addOrUpdateBank(bank);
+			std::cout << std::endl << green << bright << "Requisition has been sent to bank!" << reset << std::endl;
+		}
+		else
+			std::cout << red << "    You are blocked!" << reset << std::endl;
+
 		_sleep(1200);
 	}
 
@@ -318,69 +341,160 @@ namespace userPanelNS
 	{
 		std::cout << std::endl << cyan << " Apply For Loan" << reset << std::endl << std::endl;
 
-		int amount = getIntInput("Amount");
-		if (amount == -1) return;
-		while (amount < 0 || amount > 3000000)
+		if (!user.isBlocked)
 		{
-			if (amount < 0)
-				std::cout << red << "    invalid Amount!" << reset << std::endl;
-			else if (amount > 3000000)
-				std::cout << red << "    its too much :)!" << reset << std::endl;
-
-			amount = getIntInput("Amount");
+			int amount = getIntInput("Amount");
 			if (amount == -1) return;
-		}
-
-		std::vector<int>& v = user.accounts;
-		int receiverId = getIntInput("Loan Receiver");
-		if (receiverId == -1) return;
-		while (std::find(v.begin(), v.end(), receiverId) == v.end())
-		{
-			std::cout << red << "    it's not your account!" << reset << std::endl;
-			receiverId = getIntInput("Loan Receiver");
-			if (receiverId == -1) return;
-		}
-		BankAccount receiver = BankAccount::getAccountStruct(receiverId);
-		if (receiver.status == 1)
-		{
-			int payerId = getIntInput("Loan Payer", false);
-			if (payerId == -1) return;
-			else if (payerId != 0)
-				while (std::find(v.begin(), v.end(), payerId) == v.end())
-				{
-					std::cout << red << "    it's not your account!" << reset << std::endl;
-					payerId = getIntInput("Loan Payer");
-					if (payerId == -1) return;
-				}
-			else payerId = receiverId;
-			
-			BankAccount payer = BankAccount::getAccountStruct(payerId);
-			if(payer.status == 1)
+			while (amount < 0 || amount > 3000000)
 			{
-				int countOfPays = getIntInput("Payments Count");
-				if (countOfPays == -1) return;
-				while(countOfPays < 5 || countOfPays > 48)
-				{
-					std::cout << red << "    You can choose between (5-48) months!" << reset << std::endl;
-					countOfPays = getIntInput("Payments Count");
-					if (countOfPays == -1) return;
-				}
-				int bankId = BankAccount::getAccountStruct(receiverId).fBankId;
-				Bank bank = Bank::getBankStruct(bankId);
-				Loan loan = newLoan(receiverId, bankId, amount, countOfPays, payerId);
-				bank.loans.push_back(loan.id);
-				user.loans.push_back(loan.id);
-				User::addOrUpdateUser(user);
-				Bank::addOrUpdateBank(bank);
+				if (amount < 0)
+					std::cout << red << "    invalid Amount!" << reset << std::endl;
+				else if (amount > 3000000)
+					std::cout << red << "    its too much :)!" << reset << std::endl;
 
-				std::cout << std::endl << green << bright << "Requisition has been sent to bank!" << reset << std::endl;
+				amount = getIntInput("Amount");
+				if (amount == -1) return;
+			}
+
+			std::vector<int>& v = user.accounts;
+			int receiverId = getIntInput("Loan Receiver");
+			if (receiverId == -1) return;
+			while (std::find(v.begin(), v.end(), receiverId) == v.end())
+			{
+				std::cout << red << "    it's not your account!" << reset << std::endl;
+				receiverId = getIntInput("Loan Receiver");
+				if (receiverId == -1) return;
+			}
+			BankAccount receiver = BankAccount::getAccountStruct(receiverId);
+			if (receiver.status == 1)
+			{
+				int payerId = getIntInput("Loan Payer", false);
+				if (payerId == -1) return;
+				else if (payerId != 0)
+					while (std::find(v.begin(), v.end(), payerId) == v.end())
+					{
+						std::cout << red << "    it's not your account!" << reset << std::endl;
+						payerId = getIntInput("Loan Payer");
+						if (payerId == -1) return;
+					}
+				else payerId = receiverId;
+
+				BankAccount payer = BankAccount::getAccountStruct(payerId);
+				if (payer.status == 1)
+				{
+					int countOfPays = getIntInput("Payments Count");
+					if (countOfPays == -1) return;
+					while (countOfPays < 5 || countOfPays > 48)
+					{
+						std::cout << red << "    You can choose between (5-48) months!" << reset << std::endl;
+						countOfPays = getIntInput("Payments Count");
+						if (countOfPays == -1) return;
+					}
+					int bankId = BankAccount::getAccountStruct(receiverId).fBankId;
+					Bank bank = Bank::getBankStruct(bankId);
+					Loan loan = newLoan(receiverId, bankId, amount, countOfPays, payerId);
+					bank.loans.push_back(loan.id);
+					user.loans.push_back(loan.id);
+					User::addOrUpdateUser(user);
+					Bank::addOrUpdateBank(bank);
+
+					std::cout << std::endl << green << bright << "Requisition has been sent to bank!" << reset << std::endl;
+				}
+				else
+					std::cout << red << "    This account has not been accepted yet!" << reset << std::endl;
 			}
 			else
 				std::cout << red << "    This account has not been accepted yet!" << reset << std::endl;
 		}
 		else
-			std::cout << red << "    This account has not been accepted yet!" << reset << std::endl;
-		
+			std::cout << red << "    You are blocked!" << reset << std::endl;
+
 		_sleep(1200);
+	}
+
+	void payLoans(User& user)
+	{
+		for (int i = 0; i < user.loans.size(); i++)
+		{
+			Loan loan = Loan::getLoanStruct(user.loans[i]);
+			if (loan.status == 1)
+			{
+				const int secondsPerMonth = 86400 * 30;
+				const int monthsPassed = (time(0) - loan.lastTimePayed) / secondsPerMonth;
+				if (monthsPassed >= 1)
+				{
+					const int paymentAmount = loan.amount / loan.countOfPayments;
+					BankAccount acc = BankAccount::getAccountStruct(loan.fPaymentAccount);
+					if (loan.countOfPayments - loan.countOfPaid >= monthsPassed)
+					{
+						if (acc.balance >= paymentAmount * monthsPassed)
+						{
+							acc.balance -= paymentAmount * monthsPassed;
+							loan.countOfPaid += monthsPassed;
+							BankAccount::addOrUpdateAccount(acc);
+						}
+						else
+						{
+							blockUser(user, loan.fBankId);
+							loan.status = -2;
+						}
+					}
+					else
+					{
+						const int countOfPays = loan.countOfPayments - loan.countOfPaid;
+						if (acc.balance >= paymentAmount * countOfPays)
+						{
+							acc.balance -= paymentAmount * countOfPays;
+							loan.countOfPaid += countOfPays;
+							BankAccount::addOrUpdateAccount(acc);
+						}
+						else 
+						{
+							blockUser(user, loan.fBankId);
+							loan.status = -2;
+						}
+					}
+					loan.lastTimePayed = time(0);
+					Loan::addOrUpdateLoan(loan);
+					if (loan.countOfPaid == loan.countOfPayments)
+						loan.status = 2;
+				}
+			}
+		}
+	}
+
+	void getInterests(User& user)
+	{
+		for (int i = 0; i < user.accounts.size(); i++)
+		{
+			BankAccount acc = BankAccount::getAccountStruct(user.accounts[i]);
+			if (acc.status == 1)
+			{
+				const int secondsPerDay = 86400;
+				const int daysPassed = (time(0) - acc.lastInterestDate) / secondsPerDay;
+				if (daysPassed >= 1)
+				{
+					for (int i = 0; i < daysPassed; i++)
+						acc.balance *= acc.interestRate;
+					acc.lastInterestDate = time(0);
+					BankAccount::addOrUpdateAccount(acc);
+				}
+			}
+		}
+	}
+
+	void blockUser(User& user, int bankId)
+	{
+		user.isBlocked = true;
+		User::addOrUpdateUser(user);
+		for (int i = 0; i < user.accounts.size(); i++)
+		{
+			BankAccount acc = BankAccount::getAccountStruct(user.accounts[i]);
+			if (acc.fBankId == bankId)
+			{
+				acc.status = -2;
+				BankAccount::addOrUpdateAccount(acc);
+			}
+		}
 	}
 }

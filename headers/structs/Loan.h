@@ -14,7 +14,7 @@ struct Loan
     int fPaymentAccount;    // Foreign Key
     int fBankId;           // Foreign Key
     int amount;
-    int status = 0;       // 0: Pending, -1: Rejected, 1: Accepted
+    int status = 0;       // 0: Pending, -1: Rejected, 1: Accepted, 2: Finished, -2:  Blocked
     int countOfPayments;
     int countOfPaid = 0;
     bool isFinished = false;

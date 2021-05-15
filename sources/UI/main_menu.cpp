@@ -28,7 +28,7 @@ void showLogo()
 	std::cout << "   A simple :) Bank Management System" << std::endl << std::endl;
 	std::cout << reset;
 	std::cout << "   Github: " << cyan << "https://github.com/ArashSameni/BankManagementSystem" << reset << std::endl;
-	//_sleep(2500);
+	_sleep(2500);
 	system("cls");
 }
 

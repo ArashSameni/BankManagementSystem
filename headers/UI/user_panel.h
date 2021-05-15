@@ -7,3 +7,4 @@
 #include "colors.h"
 
 void userPanel(User authenticatedUser);
+void initialUser(User& User);
