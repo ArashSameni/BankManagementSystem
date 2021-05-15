@@ -242,6 +242,9 @@ namespace managerPanelNS
 			std::string loanStatus = "";
 			switch (loan.status)
 			{
+			case -2:
+				loanStatus = red + "Blocked" + reset;
+				break;
 			case -1:
 				loanStatus = red + "Rejected" + reset;
 				break;
